@@ -19,6 +19,13 @@ const monsterUtils = {
     timer: 0
 };
 
+const score = {
+    shots: 0,
+    hits: 0,
+    win: 87,
+    level: 1
+};
+
 let loadAssets = 0;
 
 const Handlers = {
@@ -74,6 +81,9 @@ const gameMessage = (y, text, color) => ({
     color,
     baseline: 'top'
 });
+
+const scoreMsg = gameMessage(10, '', 'grey');
+scoreMsg.font = 'normal bold 25px Goldman';
 
 const message = gameMessage(canvas.height / 2, 'PRESS ENTER', 'blue');
 messages.push(message);
@@ -163,6 +173,20 @@ document.addEventListener('keyup', e => {
     if (e.key === keyboard.space) actions.spacekey = false;
 });
 
+const updateScore = () => {
+    if (score.hits === 50) score.level = 2;
+    else if (score.hits === 75) score.level = 3;
+    else if (score.hits === score.win) {
+        const winMessage = gameMessage(canvas.height / 2, 'WINNER', 'grey');
+        messages.push(winMessage);
+        gameState.playing = false;
+    }
+    scoreMsg.text = `Score: ${score.hits}  Level: ${score.level}`;
+};
+
+updateScore();
+messages.push(scoreMsg);
+
 const main = () => {
     requestAnimationFrame(main);
     if (gameState.loading)
@@ -175,6 +199,7 @@ const shootMissile = () => {
     missile.vy = -8;
     elements.push(missile);
     missiles.push(missile);
+    score.shots += 1;
 };
 
 const createMonster = () => {
@@ -219,6 +244,7 @@ const update = () => {
         if (missil.y < -missil.height) {
             removeElement(missil, missiles);
             removeElement(missil, elements);
+            updateScore();
         }
     };
 
@@ -241,6 +267,8 @@ const update = () => {
         for (const missil of missiles) {
             if (collision(missil, monster) && monster.state !== monster.exploded) {
                 destroyMonster(monster);
+                score.hits += 1;
+                updateScore();
                 removeElement(missil, missiles);
                 removeElement(missil, elements);
             }
