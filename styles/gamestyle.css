@@ -45,13 +45,33 @@ a:hover {
 
 .about {
     background-color: rgba(207, 207, 207, 0.3);
-    height: 100px;
-    width: 600px;
+    height: 110px;
+    width: 800px;
     border: 2px ridge rgba(255, 255, 255, 0.3);
     border-radius: 4px;
-    margin: 20px auto;
+    margin: 15px auto;
     color: white;
-    padding: 10px;
+    padding: 25px;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 1.5em;
+}
+
+.about button {
+    margin-left: 380px;
+    background-color: rgba(0, 16, 35, 0.4);
+    color: white;
+    width: 80px;
+    height: 30px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: grab;
+    font-family: 'Nunito';
+    font-size: 19px;
+}
+
+.about button:hover {
+    background-color: rgba(0, 16, 35);
 }
 
 .container {
